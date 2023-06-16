@@ -1,0 +1,32 @@
+service: app-nodejs-codechallenge
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: dev
+  region: us-east-1
+
+environment:
+  variable1: value1
+
+package:
+  patterns:
+    - '!node_modules/**'
+    - '!package-lock.json'
+
+custom:
+  name: API-YAPE-NODEJS-CHALLENGE
+  abbrev:
+    us-east-2: EU2
+    us-east-1: EU1
+  functionsFile:
+    DESA: local
+    TEST: local
+    PROD: cloud
+  
+
+plugins:
+  - serverless-offline
+
+functions: ${file(./config/functions.${self:custom.functionsFile.${opt:stage}}.yml)}

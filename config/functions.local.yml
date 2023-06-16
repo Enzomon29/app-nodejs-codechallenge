@@ -1,0 +1,12 @@
+antifraud:
+  handler: src/antifraud/app.handler
+  name: ${self:custom.abbrev.${opt:region}}${opt:stage}ANTIFRAUD001
+  description: Lambda que verifica la validez de las transacciones
+  events:
+    - http:
+        path: /antifraud
+        method: post
+        integration: lambda
+        request:
+          template:
+            application/json: ${file(config/request/verifyTransaction.vm)}
